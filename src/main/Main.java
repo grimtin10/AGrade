@@ -14,23 +14,10 @@ import ai.NeuralNetwork;
 import chart.ChartParser;
 
 public class Main {
-	public static String[] calibrationPaths = { 
-			"C:\\Songs\\Penger\\Penger",
-			"C:\\Songs\\Jobber (Ode to Cheaters)\\Jobber (Ode to Cheaters)",
-			"C:\\Songs\\Half Jew_s Hell",
-			"C:\\Songs\\Guitar Hero III\\Bonus\\Dragonforce - Through The Fire & Flames", 
-			"C:\\Songs\\3 - H-ell\\3 - H-ell", 
-			"C:\\Songs\\~Community Track Pack X\\VI. Omega\\ArchWk's Hell", "C:\\Songs\\Prevail", "C:\\Songs\\spac", "C:\\Songs\\Constellation", "C:\\Songs\\TSMB2 - Cosmic Embassy\\Cosmic Embassy", "C:\\Songs\\~Community Track Pack 7\\[CTP7] Tier 8\\Supernovae remaster", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiobsi", "C:\\Songs\\~Community Track Pack 7\\[CTP7] Tier 8\\Megalodon", "C:\\Songs\\Community Track Pack 6\\TIER 8\\Triathlon", "C:\\Songs\\The PCPlayer Finals", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiamal", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiarmb", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiepidox",
+	public static String[] calibrationPaths = { "C:\\Songs\\Penger\\Penger", "C:\\Songs\\Jobber (Ode to Cheaters)\\Jobber (Ode to Cheaters)", "C:\\Songs\\Half Jew_s Hell", "C:\\Songs\\Guitar Hero III\\Bonus\\Dragonforce - Through The Fire & Flames", "C:\\Songs\\3 - H-ell\\3 - H-ell", "C:\\Songs\\~Community Track Pack X\\VI. Omega\\ArchWk's Hell", "C:\\Songs\\Prevail", "C:\\Songs\\spac", "C:\\Songs\\Constellation", "C:\\Songs\\TSMB2 - Cosmic Embassy\\Cosmic Embassy", "C:\\Songs\\~Community Track Pack 7\\[CTP7] Tier 8\\Supernovae remaster", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiobsi", "C:\\Songs\\~Community Track Pack 7\\[CTP7] Tier 8\\Megalodon", "C:\\Songs\\Community Track Pack 6\\TIER 8\\Triathlon", "C:\\Songs\\The PCPlayer Finals", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiamal", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiarmb", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiepidox",
 			"C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exilzigman", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\eximinds", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\Schmutz06-Solo-Releases\\Zoidberg the Cowboy by Schmutz06 & gamingfreak3", "C:\\Songs\\TheEruptionOffer - Lockene (Edit)", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\void222x-edtrio", "C:\\Songs\\KOTH Season 4 Qualifying Round\\Destruction Armageddon", "C:\\Songs\\Demons 2", "C:\\Songs\\ties - grimtin10\\ties", };
 
-	public static int[] calibrationGrades = { 
-			11,
-			22,
-			6, 
-			8, 
-			21,
-			19
-			, 15, 23, 21, 30, 18, 16, 20, 19, 30, 9, 9, 12, 4, 10, 7, 7, 8, 10, 17, 9, };
+	public static int[] calibrationGrades = { 11, 22, 6, 8, 21, 19, 15, 23, 21, 30, 18, 16, 20, 19, 30, 9, 9, 12, 4, 10, 7, 7, 8, 10, 17, 9, };
 
 	public static boolean recalculateWeights = false;
 
@@ -39,6 +26,9 @@ public class Main {
 
 		if (recalculateWeights) {
 			try {
+				// this is commented out because it made the training produce innacurate
+				// results, basically meaning that i just need better/more metrics
+
 //				System.out.println("loading all songs");
 //				HashMap<String, String> names = new HashMap<String, String>();
 //				ChartParser parser = new ChartParser();
