@@ -10,16 +10,14 @@ public class Calibrator {
 	public void calibrate(ArrayList<Entry<String, Integer>> input, NeuralNetwork nn) {
 		nn.addLayer(12, true);
 		nn.addLayer(32, false);
-		nn.addLayer(16, false);
-		nn.addLayer(8, false);
 		nn.addLayer(1, false);
 		
-		try {
-			nn.load("weights.txt");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			nn.load("weights.txt");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		System.out.println("making training data");
 		double[][][] trainingData = new double[input.size()][][];
