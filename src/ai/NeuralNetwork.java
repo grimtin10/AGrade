@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import main.Main;
 
+// this stuff isnt actually used
+// because it sucked
 public class NeuralNetwork {
 	public ArrayList<Layer> layers;
 	

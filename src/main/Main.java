@@ -1,32 +1,29 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map.Entry;
-
-import chart.ChartParser;
 
 public class Main {
 	public static String[] calibrationPaths = { "C:\\Songs\\Penger\\Penger", "C:\\Songs\\Jobber (Ode to Cheaters)\\Jobber (Ode to Cheaters)", "C:\\Songs\\Half Jew_s Hell", "C:\\Songs\\Guitar Hero III\\Bonus\\Dragonforce - Through The Fire & Flames", "C:\\Songs\\3 - H-ell\\3 - H-ell", "C:\\Songs\\~Community Track Pack X\\VI. Omega\\ArchWk's Hell", "C:\\Songs\\Prevail", "C:\\Songs\\spac", "C:\\Songs\\Constellation", "C:\\Songs\\TSMB2 - Cosmic Embassy\\Cosmic Embassy", "C:\\Songs\\~Community Track Pack 7\\[CTP7] Tier 8\\Supernovae remaster", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiobsi", "C:\\Songs\\~Community Track Pack 7\\[CTP7] Tier 8\\Megalodon", "C:\\Songs\\Community Track Pack 6\\TIER 8\\Triathlon", "C:\\Songs\\The PCPlayer Finals", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiamal", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiarmb", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exiepidox",
-			"C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exilzigman", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\eximinds", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\Schmutz06-Solo-Releases\\Zoidberg the Cowboy by Schmutz06 & gamingfreak3", "C:\\Songs\\TheEruptionOffer - Lockene (Edit)", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\void222x-edtrio", "C:\\Songs\\KOTH Season 4 Qualifying Round\\Destruction Armageddon", "C:\\Songs\\Demons 2", "C:\\Songs\\ties - grimtin10\\ties", "C:\\Songs\\Hyperbolium - Lean_s World", };
+			"C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\exilzigman", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\ExileLord Songs\\eximinds", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\Schmutz06-Solo-Releases\\Zoidberg the Cowboy by Schmutz06 & gamingfreak3", "C:\\Songs\\TheEruptionOffer - Lockene (Edit)", "C:\\Songs\\Acai's Setlist\\non guitar stuff\\void222x-edtrio", "C:\\Songs\\KOTH Season 4 Qualifying Round\\Destruction Armageddon", "C:\\Songs\\Demons 2", "C:\\Songs\\ties - grimtin10\\ties", "C:\\Songs\\Hyperbolium - Lean_s World", "C:\\Songs\\Glacial Storm Uber Solo" };
 
-	public static int[] calibrationGrades = { 11, 22, 6, 8, 21, 19, 15, 23, 21, 30, 18, 16, 20, 19, 30, 9, 9, 12, 4, 10, 7, 7, 8, 10, 17, 9, 19, };
+	public static int[] calibrationGrades = { 11, 22, 6, 8, 21, 19, 15, 23, 21, 30, 18, 16, 20, 19, 30, 9, 9, 12, 4, 10, 7, 7, 8, 10, 17, 9, 19, 16 };
 
-	public static boolean recalculateWeights = true;
+	public static boolean recalculateWeights = false;
 
 	public static void main(String[] args) throws IOException {
 		float[] weights = new float[17];
-		
+
 		System.out.println("AGrade v1.2.1");
-		
+
 		if (recalculateWeights) {
 //			System.out.println("loading all songs");
 //			HashMap<String, String> names = new HashMap<String, String>();
@@ -77,7 +74,7 @@ public class Main {
 			for (int i = 0; i < calibrationPaths.length; i++) {
 				toProcess.add(new SimpleEntry<String, Integer>(calibrationPaths[i], calibrationGrades[i]));
 			}
-			
+
 			System.out.println(toProcess.size() + " songs with grades");
 
 			System.out.println("Calibrating");
@@ -87,7 +84,7 @@ public class Main {
 				float grade = toProcess.get(i).getValue();
 
 				for (int j = 0; j < out.length; j++) {
-					if(out[j] > 0) {
+					if (out[j] > 0) {
 						weights[j] += grade / out[j];
 					}
 				}
@@ -97,7 +94,11 @@ public class Main {
 				weights[i] /= toProcess.size();
 			}
 			weights[12] = 1;
-			
+			weights[13] = 0;
+			weights[14] = 0;
+			weights[15] = 0;
+			weights[16] = 0;
+
 			float overallWeight = 0;
 			for (int i = 0; i < toProcess.size(); i++) {
 				float out = DifficultyCalculator.getDifficulty(toProcess.get(i).getKey(), false, weights, 100);
@@ -106,7 +107,7 @@ public class Main {
 				overallWeight += grade / out;
 			}
 			weights[12] = overallWeight / toProcess.size();
-			
+
 			FileWriter file = new FileWriter("weights.txt");
 			PrintWriter out = new PrintWriter(file);
 			for (int i = 0; i < weights.length; i++) {
@@ -139,15 +140,42 @@ public class Main {
 
 		System.out.println();
 
-//		float diff = DifficultyCalculator.getDifficulty("C:\\Songs\\The Mighty Rio Grande", true, weights, 100);
-		float diff = DifficultyCalculator.getDifficulty("C:\\Songs\\songs\\Crisis City", true, weights, 100);
-		float diff2 = diff / weights[12];
+		File directory = new File("C:\\Songs\\pim7\\");
+		ArrayList<File> charts = listFiles(directory, new FileFilter() {
+			@Override
+			public boolean accept(File file) {
+				return file.getName().endsWith(".chart") || !file.isFile();
+			}
+		});
 		
-		if(diff > diff2) {
-			System.out.println("Final Estimated Grade: " + Math.round(diff2) + "-" + Math.round(diff));
-		} else {
-			System.out.println("Final Estimated Grade: " + Math.round(diff) + "-" + Math.round(diff2));
+		for (File chart : charts) {
+			String path = chart.getAbsolutePath();
+			float diff = DifficultyCalculator.getDifficulty(path.replace("\\notes.chart", ""), true, weights, 100);
+//		float diff = DifficultyCalculator.getDifficulty("C:\\Songs\\Community Track Pack 6\\TIER 8\\Zoidbergs Revenge", true, weights, 100);
+			float diff2 = diff / weights[12];
+
+			if (diff > diff2) {
+				System.out.println("Final Estimated Grade: " + Math.round(diff2) + "-" + Math.round(diff));
+			} else {
+				System.out.println("Final Estimated Grade: " + Math.round(diff) + "-" + Math.round(diff2));
+			}
+			System.out.println();
 		}
+	}
+
+	public static ArrayList<File> listFiles(File dir, FileFilter filter) {
+		ArrayList<File> res = new ArrayList<File>();
+		
+		File filesList[] = dir.listFiles(filter);
+		for (File file : filesList) {
+			if (file.isFile()) {
+				res.add(file);
+			} else {
+				res.addAll(listFiles(file, filter));
+			}
+		}
+		
+		return res;
 	}
 
 	public static String[] loadStrings(String path) throws IOException {

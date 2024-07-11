@@ -339,7 +339,7 @@ public class DifficultyCalculator {
 					avgTapSpeed += 1f / dif;
 					maxTapSpeed = Math.max(1f / dif, maxTapSpeed);
 					tapSpeedCount++;
-					tapStaminaStreak++;
+					tapStaminaStreak += (1f / dif) / 20;
 
 					int minNote = 5;
 					int maxNote = 0;
@@ -408,7 +408,7 @@ public class DifficultyCalculator {
 					avgStrumSpeed += 1f / dif;
 					maxStrumSpeed = Math.max(1f / dif, maxStrumSpeed);
 					strumSpeedCount++;
-					strumStaminaStreak++;
+					strumStaminaStreak += (1f / dif) / 20;
 
 					int minNote = 5;
 					int maxNote = 0;
